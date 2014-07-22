@@ -45,7 +45,7 @@ class CodeQualityTool extends Application
         $output->writeln('<fg=white;options=bold;bg=red>Code Quality Tool</fg=white;options=bold;bg=red>');
         $output->writeln('<info>Fetching files</info>');
         $files = $this->extractCommitedFiles();
-        var_dump($files);
+
         if (empty($files)) {
             $finder = new Finder();
 

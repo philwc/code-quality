@@ -17,7 +17,8 @@ class Hooks
 
         $result = true;
         if ($gitHook !== $docHook) {
-            $io->write('<error>Hook mismatch. Please update (rm -rf .git/hooks && ln -s ../src/hooks ./.git/hooks)</error>');
+            $error = 'Hook mismatch. Please update (rm -rf .git/hooks && ln -s ../src/hooks ./.git/hooks)';
+            $io->write('<error>' . $error . '</error>');
             $result = false;
         }
 
