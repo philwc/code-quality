@@ -16,6 +16,7 @@ class CodeQualityTool extends Application
 {
     private $output;
     private $input;
+    private $binPath;
 
     const PHP_FILES_IN_SRC     = '/.*\/src\/(.*)(\.php)$/';
     const PHP_FILES_IN_CLASSES = '/^classes\/(.*)(\.php)$/';
@@ -23,6 +24,17 @@ class CodeQualityTool extends Application
     public function __construct()
     {
         parent::__construct('Code Quality Tool', '1.0.0');
+
+        $composer = json_decode(file_get_contents(getcwd() . '/composer.json'), true);
+        if (isset($composer['config']['bin-dir'])) {
+            $this->binPath = $composer['config']['bin-dir'];
+        } else {
+            if (file_exists(getcwd() . '/vendor/bin')) {
+                $this->binPath = getcwd() . '/vendor/bin';
+            } else {
+                $this->binPath = getcwd() . '/bin';
+            }
+        }
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -125,7 +137,7 @@ class CodeQualityTool extends Application
                 continue;
             }
 
-            $bin            = getcwd() . '/vendor/bin/phpmd';
+            $bin            = $this->binPath . '/phpmd';
             $processBuilder = new ProcessBuilder([$bin, $file, 'text', getcwd() . '/phpmd.xml']);
             $processBuilder->setWorkingDirectory($rootPath);
             $process = $processBuilder->getProcess();
@@ -150,7 +162,7 @@ class CodeQualityTool extends Application
     private function unitTests()
     {
         if (file_exists(getcwd() . '/app/phpunit.xml.dist')) {
-            $processBuilder = new ProcessBuilder(array(getcwd() . '/vendor/bin/phpunit', '-c app'));
+            $processBuilder = new ProcessBuilder(array($this->binPath . '/phpunit', '-c app'));
         } else {
             return true;
         }
@@ -181,7 +193,7 @@ class CodeQualityTool extends Application
                 continue;
             }
 
-            $processBuilder = new ProcessBuilder(array(getcwd() . '/vendor/bin/phpcs', '--standard=PSR2', $file));
+            $processBuilder = new ProcessBuilder(array($this->binPath . '/phpcs', '--standard=PSR2', $file));
             $phpCsFixer     = $processBuilder->getProcess();
             $phpCsFixer->run();
 
