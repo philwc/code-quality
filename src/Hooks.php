@@ -1,5 +1,5 @@
 <?php
-namespace SFP;
+namespace philwc;
 
 use Composer\Script\Event;
 
@@ -17,7 +17,7 @@ class Hooks
 
         $result = true;
         if ($gitHook !== $docHook) {
-            $io->write('<error>Hook mismatch. Please update</error>');
+            $io->write('<error>Hook mismatch. Please update (rm -rf .git/hooks && ln -s ../src/hooks ./.git/hooks)</error>');
             $result = false;
         }
 

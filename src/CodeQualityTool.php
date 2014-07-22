@@ -4,7 +4,7 @@
  * Date: 22/07/14
  */
 
-namespace SFP;
+namespace philwc;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -125,7 +125,7 @@ class CodeQualityTool extends Application
                 continue;
             }
 
-            $bin = getcwd() . '/vendor/bin/phpmd';
+            $bin            = getcwd() . '/vendor/bin/phpmd';
             $processBuilder = new ProcessBuilder([$bin, $file, 'text', getcwd() . '/phpmd.xml']);
             $processBuilder->setWorkingDirectory($rootPath);
             $process = $processBuilder->getProcess();
