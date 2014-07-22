@@ -1,0 +1,20 @@
+{
+    "require": {
+        "symfony/console": "2.5.*",
+        "symfony/process": "2.5.*",
+        "symfony/finder": "2.5.*",
+        "phpunit/phpunit": "4.1.*",
+        "zerkalica/phpcs": "dev-master",
+        "phpmd/phpmd": "2.0.*"
+    },
+    "scripts": {
+        "pre-update-cmd": "SFP\\Hooks::checkHooks",
+        "pre-install-cmd": "SFP\\Hooks::checkHooks"
+    },
+    "autoload": {
+        "psr-4": {
+            "SFP\\": "src"
+        }
+    }
+
+}

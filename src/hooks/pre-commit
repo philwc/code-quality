@@ -1,0 +1,7 @@
+#!/usr/bin/php
+<?php
+
+require getcwd() . '/vendor/autoload.php';
+
+    $console = new SFP\CodeQualityTool();
+$console->run();
