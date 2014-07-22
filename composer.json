@@ -1,4 +1,16 @@
 {
+    "name": "philwc/code-quality",
+    "description": "Code quality pre commit hook",
+    "keywords": ["php","code quality", "hook"],
+    "homepage": "https://github.com/philwc/code-quality",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Phil Wright- Christie",
+            "email": "philwc@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "symfony/console": "2.5.*",
         "symfony/process": "2.5.*",
@@ -8,8 +20,8 @@
         "phpmd/phpmd": "2.0.*"
     },
     "scripts": {
-        "pre-update-cmd": "SFP\\Hooks::checkHooks",
-        "pre-install-cmd": "SFP\\Hooks::checkHooks"
+        "pre-update-cmd": "philwc\\Hooks::checkHooks",
+        "pre-install-cmd": "philwc\\Hooks::checkHooks"
     },
     "autoload": {
         "psr-4": {
