@@ -13,7 +13,14 @@ class Hooks
     {
         $io      = $event->getIO();
         $gitHook = @file_get_contents(getcwd() . '/.git/hooks/pre-commit');
-        $docHook = @file_get_contents(getcwd() . '/src/hooks/pre-commit');
+
+        if (file_exists(getcwd() . '/src/hooks/pre-commit')) {
+            $hookLocation = getcwd() . '/src/hooks/pre-commit';
+        } else {
+            $hookLocation = getcwd() . '/vendor/philwc/code-quality/src/hooks/pre-commit';
+        }
+
+        $docHook = @file_get_contents($hookLocation);
 
         $result = true;
         if ($gitHook !== $docHook) {
