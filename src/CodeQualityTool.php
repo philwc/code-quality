@@ -17,6 +17,7 @@ class CodeQualityTool extends Application
     private $output;
     private $input;
     private $binPath;
+    private $checks;
 
     const PHP_FILES_IN_SRC     = '/.*\/src\/(.*)(\.php)$/';
     const PHP_FILES_IN_CLASSES = '/^classes\/(.*)(\.php)$/';
@@ -37,8 +38,15 @@ class CodeQualityTool extends Application
         }
     }
 
+    public function setChecks(array $checks)
+    {
+        $this->checks = $checks;
+    }
+
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+
+
         $this->input  = $input;
         $this->output = $output;
 
@@ -59,24 +67,33 @@ class CodeQualityTool extends Application
         }
 
         if (!empty($files)) {
-            $output->writeln('<info>Running PHPLint</info>');
-            if (!$this->phpLint($files)) {
-                throw new \Exception('There are some PHP syntax errors!');
+
+            if (in_array('lint', $this->checks)) {
+                $output->writeln('<info>Running PHPLint</info>');
+                if (!$this->phpLint($files)) {
+                    throw new \Exception('There are some PHP syntax errors!');
+                }
             }
 
-            $output->writeln('<info>Checking code style with PHPCS</info>');
-            if (!$this->codeStylePsr($files)) {
-                throw new \Exception(sprintf('There are PHPCS coding standards violations!'));
+            if (in_array('phpcs', $this->checks)) {
+                $output->writeln('<info>Checking code style with PHPCS</info>');
+                if (!$this->codeStylePsr($files)) {
+                    throw new \Exception(sprintf('There are PHPCS coding standards violations!'));
+                }
             }
 
-            $output->writeln('<info>Checking code mess with PHPMD</info>');
-            if (!$this->phpMd($files)) {
-                throw new \Exception(sprintf('There are PHPMD violations!'));
+            if (in_array('phpmd', $this->checks)) {
+                $output->writeln('<info>Checking code mess with PHPMD</info>');
+                if (!$this->phpMd($files)) {
+                    throw new \Exception(sprintf('There are PHPMD violations!'));
+                }
             }
 
-            $output->writeln('<info>Running unit tests</info>');
-            if (!$this->unitTests()) {
-                throw new \Exception('Fix the unit tests!');
+            if (in_array('phpunit', $this->checks)) {
+                $output->writeln('<info>Running unit tests</info>');
+                if (!$this->unitTests()) {
+                    throw new \Exception('Fix the unit tests!');
+                }
             }
         }
         $output->writeln('<info>Good job dude!</info>');

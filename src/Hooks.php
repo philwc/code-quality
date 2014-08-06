@@ -24,7 +24,18 @@ class Hooks
 
         $result = true;
         if ($gitHook !== $docHook) {
-            $error = 'Hook mismatch. Please update (rm -rf .git/hooks && ln -s ../src/hooks ./.git/hooks)';
+            $error = 'Hook mismatch. Please update (rm -rf .git/hooks && ln -s ' .
+                str_replace(
+                    'pre-commit',
+                    '',
+                    str_replace(
+                        getcwd(),
+                        '..',
+                        $hookLocation
+                    )
+                )
+                . ' ./.git/hooks)';
+
             $io->write('<error>' . $error . '</error>');
             $result = false;
         }

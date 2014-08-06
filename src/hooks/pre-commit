@@ -4,4 +4,9 @@
 require getcwd() . '/vendor/autoload.php';
 
 $console = new philwc\CodeQualityTool();
+$defaultChecks = array('lint', 'phpcs', 'phpmd', 'phpunit');
+if(file_exists(getcwd(). '/cqchecks.json')){
+    $defaultChecks = json_decode(file_get_contents(getcwd(). '/cqchecks.json'));
+}
+$console->setChecks($defaultChecks);
 $console->run();
